@@ -1,9 +1,7 @@
 #include<iostream>
 using namespace std;
 
-/*
-sorting function (for ease of programming) sir PLEASE send further suggestions at arnab.pal@niser.ac.in
-*/
+
 void f_sort(int darth_vader[],int &n)
 {
 	int x;
