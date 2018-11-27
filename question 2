@@ -20,28 +20,20 @@ void f_sort(int darth_vader[],int &n)
 	}
 }
 
-/*
-the minimum function starts here
-its simple after the sorting 
-*/
+
 void mini(int darth_vader[],int n)
 {
 	cout<<"smallest number is "<<darth_vader[0]<<endl;
 }
 
-/*
-the maximum function starts here
-its supper simple after sorting too
-*/
+
 
 void maxi(int darth_vader[],int n)
 {
 	cout<<"largest number is "<<darth_vader[n-1]<<endl;
 }
 
-/*
-MEAN FUNCTION no puns here
-*/
+
 
 void mean(int darth_vader[],int x)
 {
@@ -54,7 +46,7 @@ void mean(int darth_vader[],int x)
 	cout<<"the mean is "<<mean<<endl;
 }
 
-/* the median function now*/
+
 
 void median(int darth_vader[],int x)
 {
@@ -67,9 +59,6 @@ void median(int darth_vader[],int x)
 	cout<<"the median is "<<median<<endl;
 }
 
-/*
-the function for frequency; the most notorious one
-*/
 
 void freq(int darth_vader[], int&x)
 {
@@ -92,18 +81,13 @@ void freq(int darth_vader[], int&x)
 			freqarr[k]++;
 		}
 	}
-	
-/* 
-the following reflects my thoughts and experiments
-so i haven't deleted them
-*/
-/*	for(int i=0;i<x;i++)
+
+	for(int i=0;i<x;i++)
 	{
 		cout<<darth_vader[i]<<"--";
 		cout<<freqarr[i]<<"\n";
 	}
-*/	
-	/* now for printing out the frequencies*/
+
 	int l,m;
 	l=freqarr[0];
 	/*int printarr[x]
@@ -114,16 +98,9 @@ so i haven't deleted them
 		{
 			l=freqarr[i];
 			m=i;
-			/*
-			ANOTHER UNNECESSARY CODE FOLLOWS
-			*/
 			
-			/*printarr[z]=i;
-			z++;
-			if(i==x)
-			{
-				printarr[z]="\0";
-			}*/
+			
+			
 		}
 	}
 	for(int a=0;a<x;a++)
@@ -135,9 +112,7 @@ so i haven't deleted them
 		else continue;
 	}
 }
-/*
-driver at the end to drive the chu-chu-chu
-*/
+
 
 int main()
 {
