@@ -5,17 +5,19 @@ class Node{
     public:
     //Data
     int data;
+    //Pointer to the next Node and previous Node
     Node *ptr;
-    //Constructor to make ptr to null
+    Node *previous;
+    //Constructor to make ptr and previous to null
     Node()
     {
         ptr=NULL;
+        previous=NULL;
     }
 };
 class LinkedList{
     public:
-    
-    
+
     //Head-> circle type ptr
     Node *head;
     Node *tail;
@@ -28,7 +30,7 @@ class LinkedList{
     //Circle inside linked with each other
     //Rules how circle will be linked
     //Insertion
-    void insertion(int value)
+    void insert(int value)
     {
         //1st Node is added
         Node *temp=new Node();
@@ -42,6 +44,7 @@ class LinkedList{
         else
         {
         //Any other node
+        temp->previous=tail;
         tail->ptr=temp;
         }
         
@@ -49,25 +52,56 @@ class LinkedList{
         
     }
     //Insert at 
-    void InsertionAt(int pos,int data)
+    void InsertAt(int pos,int data)
     {
-        //Reach the place before pos
+         //Count numbers
+        int count=0;
         Node *current=head;
-        int a=1;
-        while(a<pos-1)
+        for(int i=0;current!=NULL;i++)
         {
-           a++;
-           current=current->ptr;
+            count++;
+            current=current->ptr;
         }
-        //Create the node
-        Node *c=new Node();
-        c->data=data;
-        c->ptr=current->ptr;
-        current->ptr=c;
+        //Put conditionon pos
+        if(pos>0 && pos<=count)
+        {
+            //If position is 1st position
+            if(pos==1)
+            {
+                Node *current=head;
+                Node *x=new Node();
+                x->data=data;
+                x->ptr=current;
+                current->previous=x;
+                head=x;
+            }
+            else
+            {
+                //Reach the place before pos
+                Node *current=head;
+                int i=1;
+                while(i<pos-1)
+                {
+                   i++;
+                   current=current->ptr;
+                }
+                //Create the node
+                Node *x=new Node();
+                x->data=data;
+                x->ptr=current->ptr;
+                current->ptr=x;
+                x->ptr->previous=x;
+                x->previous=current;
+            }
+        }
+        else
+        {
+            cout<<pos<<" is invalid position"<<endl;
+        }
     }
     
     //Deletion of last element
-    void deletion()
+    void del()
     {
         //store tail in temp
         Node *t=tail;
@@ -78,14 +112,15 @@ class LinkedList{
             current=current->ptr;
         }
         current->ptr=NULL;
+        t->previous=NULL;
         //update tail
         tail=current;
         //delete temp
         delete t;
         
     }
-    //count items
-    int countItems()
+    //counting items
+    int counting()
     {
         Node *current=head;
         int length=0;
@@ -97,43 +132,75 @@ class LinkedList{
         return length;
     }
     //Delete at position
-    void deletionAt(int pos)
+    void deleteAt(int pos)
     {
-        //Reach the place before pos
+        //Count numbers
+        int count=0;
         Node *current=head;
-        int a=1;
-        while(i<pos-1)
+        for(int i=0;current!=NULL;i++)
         {
-           a++;
-           current=current->ptr;
+            count++;
+            current=current->ptr;
         }
-        //copy the node to be deleted
-        Node *t=current->ptr;
-        //Reach next place after pos 
-        Node *next=head;
-        int b=0;
-        while(b<pos)
+        //Put condition for position
+        if(pos>0 && pos<=count)
         {
-           b++;
-           next=next->ptr;
+            //If pos is 1st position
+            if(pos==1)
+            {
+                Node *x=head;
+                head=head->ptr;
+                x->ptr=NULL;
+                head->previous=NULL;
+                delete x;
+            }
+            else
+            {
+                //Reach the place before pos
+                Node *current=head;
+                int i=1;
+                while(i<pos-1)
+                {
+                   i++;
+                   current=current->ptr;
+                }
+                //copy the node to be deleted
+                Node *t=current->ptr;
+                current->ptr->ptr->previous=current;
+                current->ptr=current->ptr->ptr;
+                t->ptr=NULL;
+                t->previous=NULL;
+                delete t;
+            }
         }
-        //Pointer of the node before pos will point to the node after pos 
-        current->ptr=next;
-        delete t;
-        
+        else
+        {
+            cout<<pos<<" is invalid position"<<endl;
+        }
     }
     //Display
     
     void display()
     {
         Node *current=head;
+        Node *last;
         while(current!=NULL)
         {
             cout<<current->data<<"->";
-            current=current->ptr;
+            last=current;
+            current=current->ptr;//Move to next node
             
         }
         cout<<"NULL"<<endl;
+        cout<<endl;
+        cout << "Print in Reverse order : "<<endl;
+        while(last!=NULL)
+        {
+            cout <<last->data<< "->";
+            // Move backwards 
+            last = last->previous;
+        }
+        cout <<"NULL"<< endl;
     }
 
 };
@@ -143,22 +210,69 @@ int main()
     //Object of the class
     LinkedList l1;
     //Enter values
-    l1.insert(1);
-    l1.insert(2);
-    l1.insert(3);
-    l1.insert(4);
-    //show output
+    for(int i=1;i<6;i++)
+    {
+        l1.insert(i);
+    }
+    //showing output
+    cout<<"Normal Display::"<<endl;
     l1.display();
-    cout<<"The number of items before deletion="<<l1.countItems()<<endl;
+    cout<<"The number of items before deletion="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after deletion of last element::"<<endl;
     l1.del();//use of delete
     l1.display();
-    cout<<"The number of items after deletion="<<l1.countItems()<<endl;
-   l1.InsertionAt(2,5);//use of insert at
+    cout<<"The number of items after deletion="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(valid ex-1)::"<<endl;
+    l1.InsertAt(1,69);//use of insert at
     l1.display();
-    cout<<"The number of items after insertion at position="<<l1.countItems()<<endl;
-    l1.deletionAt(3);//use of deleteAt
+    cout<<"The number of items after insertion at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(invalid ex-1)::"<<endl;
+    l1.InsertAt(3,69);//use of insert at
     l1.display();
-    cout<<"The number of items after delete at position="<<l1.countItems()<<endl;
+    cout<<"The number of items after insertion at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(invalid ex-2)::"<<endl;
+    l1.InsertAt(14,14);//use of insert at
+    l1.display();
+    cout<<"The number of items after insertion at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(valid ex-2)::"<<endl;
+    l1.InsertAt(3,14);//use of insert at
+    l1.display();
+    cout<<"The number of items after insertion at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after deletion at particular position(valid ex-1)::"<<endl;
+    l1.deleteAt(1);//use of deleteAt
+    l1.display();
+    cout<<"The number of items after delete at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(invalid ex-1)::"<<endl;
+    l1.deleteAt(56);//use of deleteAt
+    l1.display();
+    cout<<"The number of items after delete at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after insertion at particular position(invalid ex-2)::"<<endl;
+    l1.deleteAt(969);//use of deleteAt
+    l1.display();
+    cout<<"The number of items after delete at position="<<l1.counting()<<endl;
+    cout<<endl;
+    
+    cout<<"Display after deletion at particular position(valid ex-2)::"<<endl;
+    l1.deleteAt(41);//use of deleteAt
+    l1.display();
+    cout<<"The number of items after delete at position="<<l1.counting()<<endl;
+    cout<<endl;
     
     return 0;
 }
